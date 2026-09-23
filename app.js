@@ -1,0 +1,17 @@
+const posts=[{name:"mii",body:"この店よかった。また行きたい",tag:"カフェ",dist:"300m",time:"17:42",insta:"mii",image:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",likes:2,liked:false,comments:["わかる、ここ気になってた"]},{name:"sora",body:"今日これ観てきた。普通に好き",tag:"映画",dist:"1.2km",time:"16:18",insta:"sora",image:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80",likes:5,liked:false,comments:[]},{name:"kei",body:"仕事終わり。ちょっとだけ飲む",tag:"酒",dist:"2.1km",time:"15:03",insta:"kei",image:"https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80",likes:1,liked:false,comments:[]}];
+const feed=document.querySelector("#feed");
+const photoInput=document.querySelector("#photo"), photoPreview=document.querySelector("#photoPreview"), photoButton=document.querySelector("#photoButton");
+photoButton.onclick=()=>photoInput.click();
+let selectedPhoto="";
+photoInput.onchange=()=>{const file=photoInput.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{selectedPhoto=reader.result;photoPreview.src=selectedPhoto;photoPreview.classList.remove("hidden")};reader.readAsDataURL(file)};
+function render(){feed.innerHTML=posts.map((p,i)=>`<article class="post"><div class="who"><div class="avatar">○</div><span class="name">${esc(p.name)}</span><span class="meta">${p.dist}</span></div>${p.image?`<div class="photoWrap"><img class="postImage" src="${p.image}"><span class="photoTime">${p.time||"今"}</span></div>`:""}<div class="body">${esc(p.body)}</div><div class="tag">#${esc(p.tag)}</div><div class="actions"><button class="like ${p.liked?"liked":""}" data-i="${i}">${p.liked?"♥":"♡"} ${p.likes}</button><button class="comment" data-i="${i}">💬 ${p.comments.length}</button><button class="insta" data-user="${esc(p.insta)}">Instagram →</button></div>${p.comments.length?`<div class="comments">${p.comments.map(c=>`<div><b>you</b> ${esc(c)}</div>`).join("")}</div>`:""}</article>`).join("");
+document.querySelectorAll(".like").forEach(b=>b.onclick=()=>{const p=posts[+b.dataset.i];p.liked=!p.liked;p.likes+=p.liked?1:-1;render()});
+document.querySelectorAll(".comment").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;openComment(i)});
+document.querySelectorAll(".insta").forEach(b=>b.onclick=()=>window.open("https://instagram.com/"+b.dataset.user,"_blank"))}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function openComment(i){const t=prompt("コメント");if(t&&t.trim()){posts[i].comments.push(t.trim());render()}}
+render();
+document.querySelector("#fab").onclick=()=>document.querySelector("#modal").classList.remove("hidden");
+document.querySelector("#close").onclick=()=>document.querySelector("#modal").classList.add("hidden");
+document.querySelector("#post").onclick=()=>{const t=document.querySelector("#text").value.trim();if(!t&&!selectedPhoto){alert("写真か一言を追加してください");return;}posts.unshift({name:"you",body:t,tag:(document.querySelector("#tag").value.trim()||"日常"),dist:"今ここ",insta:"",image:selectedPhoto,time:new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"}),likes:0,liked:false,comments:[]});document.querySelector("#text").value="";document.querySelector("#modal").classList.add("hidden");render()};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{if(b.dataset.tab==="home")render();else if(b.dataset.tab==="notice")alert("通知");else alert("プロフィール")});
