@@ -34,15 +34,16 @@ document.getElementById("close").onclick=function(){document.getElementById("mod
 photo.addEventListener("change",()=>{
  const file=photo.files&&photo.files[0];if(!file)return;
  const reader=new FileReader();
- reader.onload=()=>{selected=reader.result;preview.src=selected;preview.classList.remove("hidden")};
+ reader.onload=()=>{selected=reader.result;preview.src=selected;previewWrap.classList.remove("hidden")};
  reader.readAsDataURL(file);
 });
+removePhoto.onclick=function(){selected="";photo.value="";preview.src="";previewWrap.classList.add("hidden")};
 document.getElementById("post").addEventListener("click",()=>{
  const text=document.getElementById("text").value.trim();
  const tag=document.getElementById("tag").value.trim()||"日常";
  if(!text&&!selected){window.alert("写真か一言を追加してください");return}
  posts.unshift({name:"you",body:text,tag:tag,time:new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"}),image:selected,likes:0,liked:false,comments:[]});
- selected="";photo.value="";preview.src="";preview.classList.add("hidden");document.getElementById("text").value="";document.getElementById("tag").value="";modal.classList.add("hidden");render();
+ selected="";photo.value="";preview.src="";previewWrap.classList.add("hidden");document.getElementById("text").value="";document.getElementById("tag").value="";modal.classList.add("hidden");render();
 });
 document.getElementById("mode").addEventListener("click",()=>window.alert("日常・映画・野球・飲み・カフェ"));
 render();
