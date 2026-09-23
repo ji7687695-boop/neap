@@ -28,3 +28,5 @@ Flutter + Supabase + PostgreSQL/PostGIS.
 Preview updated: 1790156010322
 
 Deploy latest UI
+
+Fix composer modal
