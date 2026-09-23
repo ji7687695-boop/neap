@@ -31,7 +31,6 @@ feed.addEventListener("click",e=>{
 });
 document.getElementById("fab").addEventListener("click",()=>modal.classList.remove("hidden"));
 document.getElementById("close").addEventListener("click",()=>modal.classList.add("hidden"));
-document.querySelector(".photo").addEventListener("click",()=>photo.click());
 photo.addEventListener("change",()=>{
  const file=photo.files&&photo.files[0];if(!file)return;
  const reader=new FileReader();
