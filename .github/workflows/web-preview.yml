@@ -1,10 +1,20 @@
-name: neap web preview
+name: Deploy neap preview
 on:
   push:
-    branches: [build/mvp]
+    branches: [main]
   workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
 jobs:
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -12,8 +22,11 @@ jobs:
         with:
           channel: stable
       - run: flutter pub get
-      - run: flutter build web --release --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-      - uses: actions/upload-artifact@v4
+      - run: flutter build web --release --base-href /neap/ --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: neap-web
           path: build/web
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
