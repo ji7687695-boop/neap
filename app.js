@@ -47,3 +47,27 @@ document.getElementById("post").addEventListener("click",()=>{
 });
 document.getElementById("mode").addEventListener("click",()=>window.alert("日常・映画・野球・飲み・カフェ"));
 render();
+async function startNeapCamera(){
+  try{
+    if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop());
+    cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:cameraFacing}},audio:false});
+    cameraVideo.srcObject=cameraStream;
+    cameraLayer.classList.remove("hidden");
+  }catch(e){alert("カメラを使うにはSafariのカメラ許可が必要です");}
+}
+function stopNeapCamera(){
+  if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}
+  cameraVideo.srcObject=null;
+  cameraLayer.classList.add("hidden");
+}
+document.getElementById("openCamera").onclick=startNeapCamera;
+document.getElementById("cameraClose").onclick=stopNeapCamera;
+document.getElementById("cameraFlip").onclick=async function(){cameraFacing=cameraFacing==="environment"?"user":"environment";await startNeapCamera()};
+document.getElementById("cameraShot").onclick=function(){
+  if(!cameraVideo.videoWidth)return;
+  cameraCanvas.width=cameraVideo.videoWidth;cameraCanvas.height=cameraVideo.videoHeight;
+  cameraCanvas.getContext("2d").drawImage(cameraVideo,0,0);
+  selected=cameraCanvas.toDataURL("image/jpeg",0.9);
+  preview.src=selected;previewWrap.classList.remove("hidden");
+  stopNeapCamera();
+};
