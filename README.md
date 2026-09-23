@@ -23,3 +23,6 @@ Flutter + Supabase + PostgreSQL/PostGIS.
 
 現在は触れるUIプロトタイプ＋DBスキーマまで実装。次の接続点はAuth/Storage/位置取得と実データフィード。
 
+
+
+Preview updated: 1790156010322
