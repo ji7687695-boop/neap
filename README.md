@@ -22,3 +22,4 @@ Flutter + Supabase + PostgreSQL/PostGIS.
 5. flutter run --dart-define=SUPABASE_URL=YOUR_URL --dart-define=SUPABASE_ANON_KEY=YOUR_ANON_KEY
 
 現在は触れるUIプロトタイプ＋DBスキーマまで実装。次の接続点はAuth/Storage/位置取得と実データフィード。
+
