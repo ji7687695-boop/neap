@@ -29,8 +29,8 @@ feed.addEventListener("click",e=>{
  if(b.classList.contains("comment")){const t=window.prompt("コメント");if(t&&t.trim()){posts[i].comments.push(t.trim());render()}}
  if(b.classList.contains("insta")){window.open("https://www.instagram.com/","_blank")}
 });
-document.getElementById("fab").addEventListener("click",()=>modal.classList.remove("hidden"));
-document.getElementById("close").addEventListener("click",()=>modal.classList.add("hidden"));
+document.getElementById("fab").onclick=function(){document.getElementById("modal").classList.remove("hidden")};
+document.getElementById("close").onclick=function(){document.getElementById("modal").classList.add("hidden")};
 photo.addEventListener("change",()=>{
  const file=photo.files&&photo.files[0];if(!file)return;
  const reader=new FileReader();
