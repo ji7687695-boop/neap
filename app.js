@@ -1,6 +1,6 @@
 const posts=[
-{name:"のりゆき",body:"タップして撮影",tag:"日常",time:"18:00",image:"",likes:0,liked:false,comments:[]},
-{name:"のぞみ",body:"",tag:"日常",time:"18:00",image:"",likes:0,liked:false,comments:[]}
+{name:"user",body:"タップして撮影",tag:"日常",time:"18:00",image:"",likes:0,liked:false,comments:[]},
+{name:"user",body:"",tag:"日常",time:"18:00",image:"",likes:0,liked:false,comments:[]}
 ];
 const feed=document.getElementById("feed");
 const modal=document.getElementById("modal");
