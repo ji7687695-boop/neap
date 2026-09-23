@@ -4,8 +4,12 @@ import 'src/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const url = String.fromEnvironment('SUPABASE_URL');
-  const anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
-  if (url.isNotEmpty && anonKey.isNotEmpty) await Supabase.initialize(url: url, anonKey: anonKey);
+  const url = 'https://hxmqpvtkgtoxkrdfuotd.supabase.co';
+  const publishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  if (publishableKey.isEmpty) {
+    runApp(const MaterialApp(home: Scaffold(body: Center(child: Padding(padding: EdgeInsets.all(24), child: Text('Supabase publishable key が未設定です。', textAlign: TextAlign.center))))));
+    return;
+  }
+  await Supabase.initialize(url: url, anonKey: publishableKey);
   runApp(const NeapApp());
 }
